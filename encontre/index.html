@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Encontre Prospects</title>
+<meta name="description" content="Lista pequena de lojas da sua região para abordar, conferida, com o que falta na presença de cada uma e o motivo para chamar. Peça uma amostra grátis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F3EC;--ink:#17212B;--muted:#55606B;--line:#DCD6C9;--card:#FFFFFF;
+  --accent:#D4500F;--accent-ink:#FFFFFF;--pin:#1F6B57;--pin-bg:#E2EFEA;--mark:#FFE8C7;--mark-ink:#7A3A06;
+  --field:#FBFAF6;--head:#101820;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E141A;--ink:#E9EDF1;--muted:#A3AEB9;--line:#2A343E;--card:#151E26;
+  --accent:#FF7A3D;--accent-ink:#1A0D05;--pin:#6FD3B4;--pin-bg:#12302A;--mark:#3B2507;--mark-ink:#FFC27D;
+  --field:#0F171E;--head:#FFFFFF;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E141A;--ink:#E9EDF1;--muted:#A3AEB9;--line:#2A343E;--card:#151E26;
+  --accent:#FF7A3D;--accent-ink:#1A0D05;--pin:#6FD3B4;--pin-bg:#12302A;--mark:#3B2507;--mark-ink:#FFC27D;
+  --field:#0F171E;--head:#FFFFFF;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{padding:16px 0 4px}
+.brand{display:flex;align-items:center;gap:10px;font:800 19px/1 "Bricolage Grotesque",system-ui,sans-serif;color:var(--head);letter-spacing:-.01em}
+.brand svg{width:30px;height:30px;flex:none}
+h1,h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;color:var(--head);letter-spacing:-.02em}
+h1{font-size:clamp(31px,8.4vw,54px);line-height:1.04;margin:14px 0 14px;font-weight:800}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-size:clamp(24px,6vw,34px);line-height:1.12;margin:0 0 14px;font-weight:800}
+.pill{display:inline-block;background:var(--pin-bg);color:var(--pin);border-radius:99px;padding:5px 12px;font-size:14px;font-weight:650}
+.lead{color:var(--muted);margin:0 0 20px;max-width:34em}
+.hero{display:grid;gap:22px;padding:8px 0 34px}
+.block{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+form h2{font-size:22px;margin:0 0 2px}
+form .sub{margin:0 0 6px;color:var(--muted);font-size:15px}
+label{display:block;font-weight:650;font-size:15px;margin:14px 0 5px}
+input,select{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:11px;background:var(--field);color:var(--ink);min-height:50px}
+input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.err{color:var(--accent);font-size:14px;margin:5px 0 0;display:none}
+.bad .err{display:block}
+.bad input,.bad select{border-color:var(--accent)}
+#outro-wrap{display:none}
+button{width:100%;margin-top:18px;min-height:54px;border:0;border-radius:13px;background:var(--accent);color:var(--accent-ink);font:750 18px/1 system-ui,sans-serif;cursor:pointer}
+button:active{transform:translateY(1px)}
+.fine{font-size:13px;color:var(--muted);margin:12px 0 0;line-height:1.5}
+a{color:var(--pin)}
+.done{display:none;text-align:left}
+.done h2{color:var(--pin)}
+section{padding:30px 0;border-top:1px solid var(--line)}
+/* linha ilustrativa: dl simples, sem caixas internas */
+.row-name{font:800 20px/1.2 "Bricolage Grotesque",system-ui,sans-serif;margin:0 0 2px;color:var(--head)}
+.row-meta{color:var(--muted);font-size:14px;margin:0 0 12px}
+dl{margin:0;display:grid;grid-template-columns:5.6em minmax(0,1fr);gap:10px 12px;font-size:15.5px}
+dt{color:var(--muted);font-weight:600}
+dd{margin:0}
+.flag{background:var(--mark);color:var(--mark-ink);padding:1px 6px;border-radius:6px;font-weight:650}
+.src{display:block;color:var(--muted);font-size:13px}
+.ex-note{font-size:13px;color:var(--muted);margin:12px 0 0}
+ol.steps{list-style:none;padding:0;margin:0;display:grid;gap:18px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start}
+ol.steps li::before{content:counter(s);width:40px;height:40px;border-radius:50%;background:var(--pin-bg);color:var(--pin);display:grid;place-items:center;font:800 18px "Bricolage Grotesque",system-ui}
+ol.steps b{display:block;color:var(--head)}
+ol.steps span{color:var(--muted)}
+.compare{display:grid;gap:14px}
+.compare p{margin:0}
+.compare .us{border-left:4px solid var(--accent);padding-left:14px}
+.compare .them{border-left:4px solid var(--line);padding-left:14px;color:var(--muted)}
+.price-big{font:800 clamp(30px,8vw,44px)/1.1 "Bricolage Grotesque",system-ui,sans-serif;color:var(--head);margin:4px 0 6px}
+ul.ticks{padding:0;margin:12px 0 0;list-style:none;display:grid;gap:8px}
+ul.ticks li{padding-left:26px;position:relative}
+ul.ticks li::before{content:"";position:absolute;left:3px;top:.5em;width:11px;height:6px;border-left:2.5px solid var(--pin);border-bottom:2.5px solid var(--pin);transform:rotate(-45deg)}
+details{border-bottom:1px solid var(--line);padding:14px 0}
+details:first-of-type{border-top:1px solid var(--line)}
+summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;min-height:28px}
+summary::after{content:"+";color:var(--accent);font-weight:800;font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin:10px 0 0;color:var(--muted)}
+footer{padding:28px 0 44px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+@media (min-width:860px){
+  .hero{grid-template-columns:1.05fr .95fr;align-items:start;padding:34px 0 56px;gap:48px}
+  .hero-copy{padding-top:26px}
+  .two{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+  .compare{grid-template-columns:1fr 1fr}
+  section{padding:48px 0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5c-5.6 0-10 4.3-10 9.8 0 7.2 10 17.2 10 17.2s10-10 10-17.2c0-5.5-4.4-9.8-10-9.8z" fill="var(--accent)"/><circle cx="16" cy="12.4" r="4.2" fill="var(--bg)"/></svg>
+    Encontre Prospects
+  </div>
+</header>
+
+<main>
+<div class="hero">
+  <div class="hero-copy">
+    <span class="pill">Estamos começando · fila de espera aberta</span>
+    <h1>As lojas da sua região que <em>precisam do que você vende</em>, numa lista só.</h1>
+    <p class="lead">Para agência de marketing e escritório de contabilidade da Grande São Paulo. Você escolhe o tipo de loja e a cidade. A gente entrega a lista conferida: o que falta na presença de cada loja, com fonte e hora, e um motivo para você chamar.</p>
+    <ul class="ticks">
+      <li>Lista pequena, da sua região, em vez de milhares de CNPJ</li>
+      <li>Cada dado diz de onde veio e quando foi conferido</li>
+      <li>A primeira amostra é grátis</li>
+    </ul>
+  </div>
+
+  <form id="f" class="block" novalidate>
+    <div id="form-body">
+      <h2>Peça sua amostra grátis</h2>
+      <p class="sub">Até 15 lojas do tipo e da cidade que você escolher.</p>
+
+      <div class="field">
+        <label for="empresa">Nome da sua empresa</label>
+        <input id="empresa" name="empresa" autocomplete="organization" required>
+        <p class="err">Escreva o nome da empresa.</p>
+      </div>
+
+      <div class="field">
+        <label for="segmento">Que tipo de loja você quer prospectar?</label>
+        <select id="segmento" name="segmento" required>
+          <option value="">Escolha</option>
+          <option value="adega">Adega</option>
+          <option value="pet">Pet shop</option>
+          <option value="padaria">Padaria</option>
+          <option value="outro">Outro tipo de comércio</option>
+        </select>
+        <p class="err">Escolha um tipo de loja.</p>
+      </div>
+      <div class="field" id="outro-wrap">
+        <label for="outro">Qual?</label>
+        <input id="outro" name="outro" placeholder="Ex.: loja de material de construção">
+        <p class="err">Conte qual tipo de loja.</p>
+      </div>
+
+      <div class="field">
+        <label for="cidade">Em qual cidade?</label>
+        <select id="cidade" name="cidade" required>
+          <option value="">Escolha</option>
+          <option>Barueri</option>
+          <option>Osasco</option>
+          <option>Carapicuíba</option>
+          <option>Cotia</option>
+          <option>Santana de Parnaíba</option>
+          <option>São Paulo, zona oeste</option>
+          <option>Outra da Grande SP</option>
+        </select>
+        <p class="err">Escolha a cidade.</p>
+      </div>
+
+      <div class="field">
+        <label for="whats">WhatsApp para receber a amostra</label>
+        <input id="whats" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 91234-5678" required>
+        <p class="err">Confira o número, com DDD.</p>
+      </div>
+
+      <button type="submit">Quero a amostra grátis</button>
+      <p class="fine">Usamos o nome da empresa, o tipo de loja, a cidade e o WhatsApp só para mandar a amostra, perguntar se ela serviu e avisar quando a lista paga abrir. Guardamos por até 12 meses e apagamos antes se o teste acabar. Para sair e apagar seus dados, é só responder "sair" no WhatsApp. Responsável: Alan Marcell de Oliveira (Amodev Consultoria em TI), CNPJ 30.783.224/0001-88. Dúvidas sobre seus dados: <a href="mailto:privacidade@bcom.app.br">privacidade@bcom.app.br</a>.</p>
+    </div>
+    <div class="done" id="done" role="status" aria-live="polite">
+      <h2>Pedido anotado.</h2>
+      <p>Você entrou na fila de espera. Quando a sua amostra estiver pronta, mandamos pelo WhatsApp que você informou.</p>
+      <p class="fine">Mudou de ideia sobre a cidade ou o tipo de loja? Responda a mensagem que a gente troca.</p>
+    </div>
+  </form>
+</div>
+
+<section aria-labelledby="t-linha">
+  <div class="two">
+    <div>
+      <h2 id="t-linha">O que vem em cada loja da lista</h2>
+      <p class="lead">Não é só nome e endereço. Cada linha diz o que a gente viu de fora, quando viu e onde. Você chega na loja sabendo o que falar.</p>
+    </div>
+    <div class="block">
+      <p class="row-name">Adega do Bairro</p>
+      <p class="row-meta">Exemplo ilustrativo · adega · Osasco</p>
+      <dl>
+        <dt>Endereço</dt><dd>Rua das Flores, 120, Centro<span class="src">fonte: mapa aberto, link público na lista</span></dd>
+        <dt>Telefone</dt><dd>O comercial que a própria loja publica, quando há<span class="src">fonte: ficha ou site da loja</span></dd>
+        <dt>Site</dt><dd><span class="flag">não encontrado</span><span class="src">conferido em 09/11, 14:20</span></dd>
+        <dt>Instagram</dt><dd><span class="flag">não encontrado</span><span class="src">conferido em 09/11, 14:20</span></dd>
+        <dt>Horário</dt><dd>Seg a sáb, 10h às 22h<span class="src">fonte: mapa aberto</span></dd>
+        <dt>Motivo</dt><dd>Sem site nem Instagram: conferir se atende só pelo WhatsApp e oferecer um perfil completo.</dd>
+      </dl>
+      <p class="ex-note">O motivo é uma sugestão para você conferir, não uma certeza.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t-como">
+  <h2 id="t-como">Como funciona</h2>
+  <ol class="steps">
+    <li><div><b>Você escolhe</b><span>O tipo de loja e a cidade ou o bairro que você atende.</span></div></li>
+    <li><div><b>A gente monta e confere</b><span>Juntamos as lojas em fonte pública, olhamos a presença de cada uma e anotamos a fonte e a hora.</span></div></li>
+    <li><div><b>Você recebe pelo WhatsApp</b><span>Uma planilha simples, pronta para abrir no celular ou no computador.</span></div></li>
+  </ol>
+</section>
+
+<section aria-labelledby="t-por">
+  <h2 id="t-por">Por que uma lista pequena</h2>
+  <div class="compare">
+    <p class="them"><b>Base grande de empresas.</b> Milhares de CNPJ por mês, assinatura mensal, e a loja de bairro aparece sem o que importa para a primeira conversa.</p>
+    <p class="us"><b>Encontre Prospects.</b> Poucas lojas, da sua região, conferidas uma a uma, com o que falta em cada uma e o motivo para chamar.</p>
+  </div>
+</section>
+
+<section aria-labelledby="t-preco">
+  <div class="two">
+    <div>
+      <h2 id="t-preco">Quanto custa</h2>
+      <p class="lead">A primeira amostra é grátis. Em troca, só pedimos que você diga se ela serviu.</p>
+    </div>
+    <div class="block">
+      <p class="row-meta">Lista paga, quando abrir</p>
+      <p class="price-big">A partir de R$ 97</p>
+      <p style="margin:0">por lista de 50 lojas, com o mesmo formato da amostra.</p>
+      <p class="fine">Quem está na fila fica sabendo primeiro.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t-faq">
+  <h2 id="t-faq">Dúvidas</h2>
+  <details><summary>A lista garante que eu vou fechar clientes?</summary><p>Não. A lista ajuda você a escolher quem abordar e o que falar. Não garantimos venda, contrato nem resposta.</p></details>
+  <details><summary>De onde vêm os dados?</summary><p>De fontes públicas, como mapas abertos, o site e o perfil que a própria loja publica. Cada campo traz a fonte e a hora em que foi conferido.</p></details>
+  <details><summary>Quais tipos de loja vocês fazem?</summary><p>Por enquanto: adega, pet shop, padaria e outros comércios de bairro. Se o seu tipo não estiver na lista, peça em "Outro tipo de comércio" que a gente avisa se dá para fazer.</p></details>
+  <details><summary>E quais cidades?</summary><p>Começamos por Barueri, Osasco, Carapicuíba, Cotia, Santana de Parnaíba e a zona oeste de São Paulo.</p></details>
+  <details><summary>Vocês usam inteligência artificial?</summary><p>Sim, com ajuda de IA para juntar e organizar. A conferência e o motivo de cada loja seguem regras fixas, e cada dado tem fonte para você checar.</p></details>
+</section>
+</main>
+
+<footer>
+  Encontre Prospects, um teste do Estúdio da Cia, em Barueri. Estamos começando.
+</footer>
+</div>
+
+<script>
+(function(){
+  var f=document.getElementById('f'),seg=document.getElementById('segmento'),ow=document.getElementById('outro-wrap');
+  seg.addEventListener('change',function(){ow.style.display=seg.value==='outro'?'block':'none';});
+  function ok(id,test){var el=document.getElementById(id),fd=el.closest('.field'),v=el.value.trim(),good=test(v);fd.classList.toggle('bad',!good);return good;}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var a=ok('empresa',function(v){return v.length>=2;});
+    var b=ok('segmento',function(v){return !!v;});
+    var c=seg.value!=='outro'||ok('outro',function(v){return v.length>=3;});
+    var d=ok('cidade',function(v){return !!v;});
+    var w=ok('whats',function(v){var n=v.replace(/\D/g,'');return n.length>=10&&n.length<=13;});
+    if(!(a&&b&&c&&d&&w)){var first=f.querySelector('.bad input,.bad select');if(first)first.focus();return;}
+    var tipo=seg.options[seg.selectedIndex].text;
+    if(seg.value==='outro')tipo=document.getElementById('outro').value.trim();
+    var txt='Oi! Quero a amostra grátis do Encontre Prospects.\nEmpresa: '+document.getElementById('empresa').value.trim()+
+      '\nSegmento: '+tipo+'\nCidade: '+document.getElementById('cidade').value.trim()+
+      '\nWhatsApp: '+document.getElementById('whats').value.trim();
+    window.location.href='https://wa.me/551148638406?text='+encodeURIComponent(txt);
+  });
+})();
+</script>
+</body>
+</html>

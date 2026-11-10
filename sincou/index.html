@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>sincou.ai</title>
+<meta name="description" content="Você muda o cardápio uma vez e ele fica igual em cada app de entrega. Entre na fila de espera e peça o piloto concierge gratuito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+/* sincou.ai, landing com fila de espera e piloto concierge (AMOM-1807).
+   390 px primeiro. Molde: estudio/encontre-prospects/index.html. Sem card dentro de card:
+   o formulário e o quadro de exemplo são blocos irmãos. Cores dos posts (post2, post3). */
+:root{
+  --bg:#F4F2EE;--ink:#1D1B16;--muted:#5F5B51;--line:#E0DBD0;--card:#FFFFFF;
+  --accent:#C94F08;--accent-ink:#FFFFFF;--ok:#1F7A4D;--ok-bg:#E3F3EA;--bad:#B42318;--bad-bg:#FDE8E6;
+  --field:#FBFAF7;--head:#14120E;--chip:#EEECE6;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12110E;--ink:#ECE9E2;--muted:#AAA597;--line:#2E2B25;--card:#1B1915;
+  --accent:#FF8A47;--accent-ink:#1F0E03;--ok:#6FD3A0;--ok-bg:#12301F;--bad:#FF8A80;--bad-bg:#3A1513;
+  --field:#15130F;--head:#FFFFFF;--chip:#2A2721;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12110E;--ink:#ECE9E2;--muted:#AAA597;--line:#2E2B25;--card:#1B1915;
+  --accent:#FF8A47;--accent-ink:#1F0E03;--ok:#6FD3A0;--ok-bg:#12301F;--bad:#FF8A80;--bad-bg:#3A1513;
+  --field:#15130F;--head:#FFFFFF;--chip:#2A2721;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{padding:16px 0 4px}
+.brand{font:800 22px/1 "Bricolage Grotesque",system-ui,sans-serif;color:var(--head);letter-spacing:-.01em}
+.brand span{color:var(--accent)}
+h1,h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;color:var(--head);letter-spacing:-.02em}
+h1{font-size:clamp(31px,8.4vw,54px);line-height:1.04;margin:14px 0 14px;font-weight:800}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-size:clamp(24px,6vw,34px);line-height:1.12;margin:0 0 14px;font-weight:800}
+.pill{display:inline-block;background:var(--ok-bg);color:var(--ok);border-radius:99px;padding:5px 12px;font-size:14px;font-weight:650}
+.lead{color:var(--muted);margin:0 0 20px;max-width:34em}
+.hero{display:grid;gap:22px;padding:8px 0 34px}
+.block{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+form h2{font-size:22px;margin:0 0 2px}
+form .sub{margin:0 0 6px;color:var(--muted);font-size:15px}
+label,legend{display:block;font-weight:650;font-size:15px;margin:14px 0 5px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+input[type=text],input[type=tel],input:not([type]){width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:11px;background:var(--field);color:var(--ink);min-height:50px}
+.apps{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.apps label,.check{display:flex;align-items:center;gap:10px;margin:0;font-weight:550;font-size:15.5px;min-height:48px;padding:8px 12px;border:1px solid var(--line);border-radius:11px;background:var(--field);cursor:pointer}
+.apps input,.check input{width:20px;height:20px;flex:none;accent-color:var(--accent);margin:0}
+.check{margin-top:16px;align-items:flex-start;padding:12px}
+.check input{margin-top:2px}
+.check small{display:block;color:var(--muted);font-weight:400;font-size:14px}
+input:focus,button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hint{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+.err{color:var(--bad);font-size:14px;margin:5px 0 0;display:none}
+.bad .err{display:block}
+.bad input:not([type=checkbox]){border-color:var(--bad)}
+.bad .apps label{border-color:var(--bad)}
+#outro-wrap{display:none}
+button{width:100%;margin-top:18px;min-height:54px;border:0;border-radius:13px;background:var(--accent);color:var(--accent-ink);font:750 18px/1 system-ui,sans-serif;cursor:pointer}
+button:active{transform:translateY(1px)}
+.fine{font-size:13px;color:var(--muted);margin:12px 0 0;line-height:1.5}
+a{color:var(--ok)}
+section{padding:30px 0;border-top:1px solid var(--line)}
+/* quadro de exemplo: lista simples, sem caixas internas */
+.ex-title{font:800 19px/1.2 "Bricolage Grotesque",system-ui,sans-serif;margin:0 0 2px;color:var(--head)}
+.ex-meta{color:var(--muted);font-size:14px;margin:0 0 12px}
+ul.chan{list-style:none;padding:0;margin:0;display:grid;gap:0}
+ul.chan li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:15.5px}
+ul.chan li:first-child{border-top:0}
+.tag{border-radius:99px;padding:3px 10px;font-size:13.5px;font-weight:700;white-space:nowrap}
+.tag.old{background:var(--bad-bg);color:var(--bad)}
+.tag.new{background:var(--ok-bg);color:var(--ok)}
+.ex-arrow{margin:14px 0 10px;font-weight:700}
+.ex-arrow b{color:var(--accent)}
+.ex-note{font-size:13px;color:var(--muted);margin:12px 0 0}
+ul.pains{padding:0;margin:0;list-style:none;display:grid;gap:14px}
+ul.pains li{border-left:4px solid var(--bad);padding-left:14px}
+ul.pains b{display:block;color:var(--head)}
+ul.pains span{color:var(--muted)}
+ol.steps{list-style:none;padding:0;margin:0;display:grid;gap:18px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start}
+ol.steps li::before{content:counter(s);width:40px;height:40px;border-radius:50%;background:var(--ok-bg);color:var(--ok);display:grid;place-items:center;font:800 18px "Bricolage Grotesque",system-ui}
+ol.steps b{display:block;color:var(--head)}
+ol.steps span{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0;padding:0;list-style:none}
+.chips li{background:var(--chip);border-radius:99px;padding:6px 14px;font-weight:650;font-size:15px}
+ul.ticks{padding:0;margin:12px 0 0;list-style:none;display:grid;gap:8px}
+ul.ticks li{padding-left:26px;position:relative}
+ul.ticks li::before{content:"";position:absolute;left:3px;top:.5em;width:11px;height:6px;border-left:2.5px solid var(--ok);border-bottom:2.5px solid var(--ok);transform:rotate(-45deg)}
+details{border-bottom:1px solid var(--line);padding:14px 0}
+details:first-of-type{border-top:1px solid var(--line)}
+summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;min-height:28px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-weight:800;font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin:10px 0 0;color:var(--muted)}
+footer{padding:28px 0 44px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+@media (min-width:860px){
+  .hero{grid-template-columns:1.05fr .95fr;align-items:start;padding:34px 0 56px;gap:48px}
+  .hero-copy{padding-top:26px}
+  .two{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+  ul.pains{grid-template-columns:1fr 1fr 1fr;gap:24px}
+  section{padding:48px 0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand" aria-label="sincou.ai">sincou<span>.ai</span></div>
+</header>
+
+<main>
+<div class="hero">
+  <div class="hero-copy">
+    <span class="pill">Estamos começando · fila de espera aberta</span>
+    <h1>Você muda o cardápio uma vez e ele <em>fica igual em cada app de entrega</em>.</h1>
+    <p class="lead">Para quem vende delivery em dois apps ou mais. Acabou um item, mudou um preço ou fechou mais cedo: você avisa a gente uma vez e a gente replica a mudança em cada canal. Você só aprova.</p>
+    <ul class="ticks">
+      <li>iFood, 99Food, Keeta e o catálogo do WhatsApp</li>
+      <li>Você avisa uma vez, do jeito que já fala com a gente</li>
+      <li>Piloto concierge gratuito para os primeiros da fila</li>
+    </ul>
+  </div>
+
+  <form id="f" class="block" novalidate>
+    <h2>Entre na fila de espera</h2>
+    <p class="sub">Leva um minuto. A conversa segue pelo WhatsApp.</p>
+
+    <div class="field">
+      <label for="nome">Seu nome</label>
+      <input id="nome" name="nome" type="text" autocomplete="name" required>
+      <p class="err">Escreva o seu nome.</p>
+    </div>
+
+    <div class="field">
+      <label for="loja">Nome da loja</label>
+      <input id="loja" name="loja" type="text" autocomplete="organization" required>
+      <p class="err">Escreva o nome da loja.</p>
+    </div>
+
+    <div class="field">
+      <label for="cidade">Cidade</label>
+      <input id="cidade" name="cidade" type="text" autocomplete="address-level2" placeholder="Ex.: Barueri" required>
+      <p class="err">Escreva a cidade.</p>
+    </div>
+
+    <fieldset class="field" id="apps-field">
+      <legend>Em quais apps você vende?</legend>
+      <div class="apps">
+        <label><input type="checkbox" name="apps" value="iFood">iFood</label>
+        <label><input type="checkbox" name="apps" value="99Food">99Food</label>
+        <label><input type="checkbox" name="apps" value="Keeta">Keeta</label>
+        <label><input type="checkbox" name="apps" value="Catálogo do WhatsApp">Catálogo do WhatsApp</label>
+        <label><input type="checkbox" name="apps" value="outro" id="outro-box">Outro</label>
+      </div>
+      <p class="hint">Marque quantos quiser.</p>
+      <p class="err">Marque pelo menos um app.</p>
+    </fieldset>
+    <div class="field" id="outro-wrap">
+      <label for="outro">Qual outro?</label>
+      <input id="outro" name="outro" type="text" placeholder="Ex.: site próprio, Instagram">
+      <p class="err">Conte qual é o outro canal.</p>
+    </div>
+
+    <div class="field">
+      <label for="whats">Seu WhatsApp</label>
+      <input id="whats" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 91234-5678" required>
+      <p class="err">Confira o número, com DDD.</p>
+    </div>
+
+    <label class="check"><input type="checkbox" id="piloto" checked><span>Quero o piloto concierge gratuito<small>A gente replica as suas mudanças nos seus apps e você conta se ajudou.</small></span></label>
+
+    <button type="submit">Entrar na fila pelo WhatsApp</button>
+    <p class="fine">O botão abre o WhatsApp com os seus dados escritos. Nada sai sem você tocar em enviar. Usamos o nome, a loja, a cidade, os apps e o WhatsApp só para falar do piloto e avisar quando abrir. Guardamos por até 12 meses e apagamos antes se o teste acabar. Para sair e apagar seus dados, é só responder "sair" no WhatsApp. Responsável: Alan Marcell de Oliveira (Amodev Consultoria em TI), CNPJ 30.783.224/0001-88. Dúvidas sobre seus dados: <a href="mailto:privacidade@bcom.app.br">privacidade@bcom.app.br</a>.</p>
+  </form>
+</div>
+
+<section aria-labelledby="t-dor">
+  <h2 id="t-dor">Mudou num app, esqueceu no outro</h2>
+  <ul class="pains">
+    <li><b>Acabou na cozinha, segue à venda</b><span>Você tirou o pastel de um app. No outro ele ficou no ar, e o pedido entrou mesmo assim.</span></li>
+    <li><b>Preço novo aqui, preço antigo ali</b><span>O cliente vê um valor no WhatsApp e outro no app. Alguém tem que explicar a diferença.</span></li>
+    <li><b>Fechou mais cedo, a loja seguiu aberta</b><span>O horário mudou em um lugar só. O pedido chega com a cozinha fechada.</span></li>
+  </ul>
+</section>
+
+<section aria-labelledby="t-como">
+  <div class="two">
+    <div>
+      <h2 id="t-como">Como funciona</h2>
+      <ol class="steps">
+        <li><div><b>Você avisa uma vez</b><span>Pelo WhatsApp: "acabou o pastel de frango", "a coca subiu", "hoje fecho às 22h".</span></div></li>
+        <li><div><b>A gente replica</b><span>Com ajuda de IA, montamos a mesma mudança para cada app em que você vende.</span></div></li>
+        <li><div><b>Você aprova e fica igual</b><span>Você confere antes de ir ao ar. Depois, o cardápio fica igual em cada canal.</span></div></li>
+      </ol>
+    </div>
+    <div class="block">
+      <p class="ex-title">Pastelaria da Praça</p>
+      <p class="ex-meta">Exemplo ilustrativo · loja fictícia</p>
+      <ul class="chan">
+        <li>iFood<span class="tag new">esgotado</span></li>
+        <li>99Food<span class="tag old">à venda</span></li>
+        <li>Catálogo do WhatsApp<span class="tag old">preço antigo</span></li>
+      </ul>
+      <p class="ex-arrow">Você avisa uma vez. <b>Fica igual em cada um:</b></p>
+      <ul class="chan">
+        <li>iFood, 99Food e WhatsApp<span class="tag new">esgotado · preço novo</span></li>
+      </ul>
+      <p class="ex-note">Exemplo para mostrar a ideia. Estamos começando e o jeito de fazer pode mudar no piloto.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t-apps">
+  <h2 id="t-apps">Os apps que você já usa</h2>
+  <p class="lead">Começamos pelos canais mais comuns do delivery de bairro. Vende em outro? Marque "Outro" no formulário e conte qual.</p>
+  <ul class="chips">
+    <li>iFood</li>
+    <li>99Food</li>
+    <li>Keeta</li>
+    <li>Catálogo do WhatsApp</li>
+  </ul>
+</section>
+
+<section aria-labelledby="t-piloto">
+  <div class="two">
+    <div>
+      <h2 id="t-piloto">Piloto concierge gratuito para os primeiros</h2>
+      <p class="lead">Os primeiros da fila entram num piloto feito à mão com a gente. Você manda as mudanças como já manda hoje, e a gente cuida de deixar cada app igual.</p>
+    </div>
+    <div>
+      <ul class="ticks">
+        <li>Sem instalar nada e sem trocar de app</li>
+        <li>Você aprova cada mudança antes de ir ao ar</li>
+        <li>Em troca, pedimos que você conte o que funcionou e o que não</li>
+      </ul>
+      <p class="fine">A ideia nasceu na Don Green, uma adega de Barueri que a gente ajuda a tocar, que vende pelo iFood e pelo catálogo do WhatsApp e vive essa troca de cardápio.</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t-faq">
+  <h2 id="t-faq">Dúvidas</h2>
+  <details><summary>Preciso dar a senha dos meus apps?</summary><p>No piloto, a gente combina com você pelo WhatsApp o jeito mais seguro para cada app. Nada muda sem a sua aprovação.</p></details>
+  <details><summary>Isso aumenta meus pedidos?</summary><p>Não prometemos mais pedidos nem nota melhor. A ideia é tirar das suas costas a troca de cardápio em cada app e evitar pedido de item que já acabou.</p></details>
+  <details><summary>Quanto custa?</summary><p>O piloto é gratuito para os primeiros da fila. Ainda não temos valor para depois. Quem está na fila fica sabendo primeiro.</p></details>
+  <details><summary>Vocês usam inteligência artificial?</summary><p>Sim, com ajuda de IA para montar a mudança para cada app. Você confere e aprova antes de ir ao ar.</p></details>
+  <details><summary>E se eu vender só em um app?</summary><p>Pode entrar na fila também. O piloto começa por quem vende em dois apps ou mais, que é onde o cardápio mais desencontra.</p></details>
+</section>
+</main>
+
+<footer>
+  sincou.ai, um teste do Estúdio da Cia, em Barueri. Estamos começando.
+</footer>
+</div>
+
+<script>
+(function(){
+  var f=document.getElementById('f'),ob=document.getElementById('outro-box'),ow=document.getElementById('outro-wrap');
+  ob.addEventListener('change',function(){ow.style.display=ob.checked?'block':'none';});
+  function val(id){return document.getElementById(id).value.trim();}
+  function ok(el,good){el.classList.toggle('bad',!good);return good;}
+  function okId(id,test){return ok(document.getElementById(id).closest('.field'),test(val(id)));}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var a=okId('nome',function(v){return v.length>=2;});
+    var b=okId('loja',function(v){return v.length>=2;});
+    var c=okId('cidade',function(v){return v.length>=2;});
+    var marcados=[].slice.call(f.querySelectorAll('input[name=apps]:checked'));
+    var d=ok(document.getElementById('apps-field'),marcados.length>0);
+    var o=!ob.checked||okId('outro',function(v){return v.length>=2;});
+    if(!ob.checked)document.getElementById('outro-wrap').classList.remove('bad');
+    var w=okId('whats',function(v){var n=v.replace(/\D/g,'');return n.length>=10&&n.length<=13;});
+    if(!(a&&b&&c&&d&&o&&w)){var first=f.querySelector('.bad input');if(first)first.focus();return;}
+    var apps=marcados.map(function(x){return x.value==='outro'?val('outro'):x.value;}).join(', ');
+    var piloto=document.getElementById('piloto').checked?'sim':'não';
+    var txt='Oi! Quero entrar na fila do sincou.ai.\nNome: '+val('nome')+
+      '\nLoja: '+val('loja')+'\nCidade: '+val('cidade')+
+      '\nApps: '+apps+'\nWhatsApp: '+val('whats')+'\nPiloto concierge: '+piloto;
+    window.location.href='https://wa.me/551148638406?text='+encodeURIComponent(txt);
+  });
+})();
+</script>
+</body>
+</html>
